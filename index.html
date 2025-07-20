@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nirvic Regmi - Portfolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@300;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Orbitron", sans-serif;
+        color: #e0e0e0;
+        background: #000;
+        overflow-x: hidden;
+        perspective: 1000px;
+      }
+      #canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+      header {
+        text-align: center;
+        padding: 40px 10px;
+        background: rgba(0, 0, 0, 0.7);
+        position: relative;
+        z-index: 1;
+        transform-style: preserve-3d;
+      }
+      .profile-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+      .profile-photo {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 2px solid #00f0ff;
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        transition: transform 0.3s;
+      }
+      .profile-photo:hover {
+        transform: scale(1.1);
+      }
+      .social-links a {
+        color: #00f0ff;
+        text-decoration: none;
+        font-size: 1em;
+        margin: 0 8px;
+        transition: color 0.3s;
+      }
+      .social-links a:hover {
+        color: #ff007a;
+      }
+      h1 {
+        font-size: 2em;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        background: linear-gradient(45deg, #00f0ff, #ff007a);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: glow 2s ease-in-out infinite;
+      }
+      @keyframes glow {
+        0%,
+        100% {
+          text-shadow: 0 0 10px #00f0ff, 0 0 20px #ff007a;
+        }
+        50% {
+          text-shadow: 0 0 15px #00f0ff, 0 0 25px #ff007a;
+        }
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 15px;
+        background: rgba(0, 0, 0, 0.5);
+        border-bottom: 2px solid #00f0ff;
+      }
+      nav a {
+        color: #00f0ff;
+        text-decoration: none;
+        font-size: 1em;
+        position: relative;
+        transition: color 0.3s, transform 0.3s;
+      }
+      nav a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background: #ff007a;
+        transition: width 0.3s;
+      }
+      nav a:hover::after {
+        width: 100%;
+      }
+      nav a:hover {
+        color: #ff007a;
+        transform: translateY(-3px);
+      }
+      section {
+        max-width: 90%;
+        margin: 30px auto;
+        padding: 20px;
+        background: rgba(10, 10, 10, 0.85);
+        border: 2px solid #00f0ff;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      section:hover {
+        transform: translateY(-10px) rotateX(5deg);
+        box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+      }
+      h2 {
+        font-size: 1.8em;
+        color: #00f0ff;
+        border-left: 4px solid #ff007a;
+        padding-left: 10px;
+        margin-bottom: 15px;
+      }
+      .project {
+        margin: 15px 0;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.07);
+        border-radius: 10px;
+        transition: all 0.3s;
+        cursor: pointer;
+      }
+      .project:hover {
+        background: rgba(255, 255, 255, 0.12);
+        transform: scale(1.02);
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+      }
+      .skills-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        text-align: center;
+      }
+      .skill-category {
+        flex: 1;
+        min-width: 100%;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        transition: all 0.3s;
+      }
+      .skill-category h3 {
+        font-size: 1.5em;
+        color: #00f0ff;
+        margin-bottom: 15px;
+        text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+        font-family: "Orbitron", sans-serif;
+      }
+      .skill-card {
+        padding: 12px;
+        margin: 8px 0;
+        background: linear-gradient(45deg, #00f0ff22, #ff007a22);
+        border: 1px solid #00f0ff;
+        border-radius: 8px;
+        color: #e0e0e0;
+        font-family: "Roboto Mono", monospace;
+        font-weight: bold;
+        font-size: 1em;
+        transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+        transform-style: preserve-3d;
+        cursor: pointer;
+      }
+      .skill-card:hover {
+        transform: translateY(-6px) rotateX(8deg) rotateY(8deg);
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.8),
+          0 0 25px rgba(255, 0, 122, 0.5);
+        background: linear-gradient(45deg, #00f0ff44, #ff007a44);
+      }
+      .skill {
+        padding: 15px;
+        background: linear-gradient(45deg, #00f0ff, #ff007a);
+        color: #000;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: transform 0.3s, box-shadow 0.3s;
+        font-family: "Roboto Mono", monospace;
+      }
+      .skill:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.8);
+      }
+      .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      input,
+      textarea {
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid #00f0ff;
+        color: #e0e0e0;
+        border-radius: 8px;
+        font-family: "Roboto Mono", monospace;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+      input:focus,
+      textarea:focus {
+        border-color: #ff007a;
+        box-shadow: 0 0 8px rgba(255, 0, 122, 0.5);
+        outline: none;
+      }
+      button {
+        padding: 12px;
+        background: linear-gradient(45deg, #00f0ff, #ff007a);
+        color: #000;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        font-family: "Orbitron", sans-serif;
+      }
+      button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.8);
+      }
+      footer {
+        text-align: center;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        border-top: 2px solid #00f0ff;
+        font-family: "Roboto Mono", monospace;
+      }
+      @media (min-width: 768px) {
+        header {
+          padding: 60px 15px;
+        }
+        .profile-container {
+          flex-direction: row;
+          gap: 20px;
+        }
+        .profile-photo {
+          width: 120px;
+          height: 120px;
+        }
+        .social-links a {
+          font-size: 1.1em;
+          margin: 0 10px;
+        }
+        h1 {
+          font-size: 3em;
+          letter-spacing: 3px;
+        }
+        nav {
+          gap: 30px;
+          padding: 20px;
+        }
+        nav a {
+          font-size: 1.2em;
+        }
+        section {
+          max-width: 800px;
+          padding: 30px;
+        }
+        h2 {
+          font-size: 2em;
+        }
+        .project {
+          margin: 20px 0;
+          padding: 20px;
+        }
+        .skill-category {
+          min-width: 200px;
+        }
+        .skill-category h3 {
+          font-size: 1.6em;
+        }
+        .skill-card {
+          padding: 15px;
+          font-size: 1.1em;
+        }
+        .skill {
+          padding: 18px;
+        }
+        input,
+        textarea {
+          padding: 15px;
+        }
+        button {
+          padding: 15px;
+        }
+        footer {
+          padding: 25px;
+        }
+      }
+      @media (min-width: 1024px) {
+        header {
+          padding: 80px 20px;
+        }
+        .profile-container {
+          gap: 20px;
+        }
+        .profile-photo {
+          width: 150px;
+          height: 150px;
+        }
+        .social-links a {
+          font-size: 1.2em;
+        }
+        h1 {
+          font-size: 4em;
+          letter-spacing: 4px;
+        }
+        nav {
+          gap: 40px;
+        }
+        nav a {
+          font-size: 1.3em;
+        }
+        section {
+          max-width: 1000px;
+          padding: 50px;
+        }
+        h2 {
+          font-size: 2.5em;
+        }
+        .project {
+          margin: 25px 0;
+          padding: 25px;
+        }
+        .skill-category {
+          min-width: 250px;
+        }
+        .skill-category h3 {
+          font-size: 1.8em;
+        }
+        .skill-card {
+          padding: 15px;
+          margin: 10px 0;
+        }
+        .skill {
+          padding: 20px;
+        }
+        .contact-form {
+          gap: 20px;
+        }
+        input,
+        textarea {
+          padding: 15px;
+        }
+        button {
+          padding: 15px;
+        }
+        footer {
+          padding: 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <header>
+      <div class="profile-container">
+        <img src="profilepic.jpg" alt="Nirvic Regmi" class="profile-photo" />
+        <div class="social-links">
+          <a
+            href="https://www.linkedin.com/in/nirvic-regmi-412499259/"
+            target="_blank"
+            >LinkedIn</a
+          >
+          <a href="https://github.com/nirvicregmi" target="_blank">GitHub</a>
+        </div>
+      </div>
+      <h1>Nirvic Regmi – Tech Adventurer on a Lifelong Learning Journey</h1>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        Passionate about technology, I’m driven by a relentless desire to learn
+        and grow. I thrive in challenging environments and enjoy exploring new
+        ideas to contribute meaningfully. With a strong work ethic and a love
+        for staying ahead in the fast-evolving tech landscape, I’m committed to
+        making a real impact through continuous development.
+      </p>
+    </section>
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="project">
+        <h3>ServeNepal</h3>
+        <p>
+          ServeNepal is a web and mobile platform designed to streamline and
+          manage public complaints across Nepal’s districts. It enables citizens
+          to report issues related to infrastructure, health, education, the
+          economy, and more — ensuring transparency, accountability, and
+          efficient resolution by the respective district administrators.
+        </p>
+      </div>
+      <div class="project">
+        <h3>SnipSnap</h3>
+        <p>
+          SnipSnap is a personalized learning platform that recommends
+          resources, enables coding practice in-browser, tracks quiz
+          performance, and offers paid courses for deeper learning.
+        </p>
+      </div>
+      <div class="project">
+        <h3>AI Powered ToDo App</h3>
+        <p>
+          Built an AI-powered to-do app that performs CRUD operations based on
+          natural human language input.
+        </p>
+      </div>
+    </section>
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h3>💻 Web Development</h3>
+          <div class="skill-card">Next.js</div>
+          <div class="skill-card">MERN Stack</div>
+          <div class="skill-card">Django</div>
+        </div>
+        <div class="skill-category">
+          <h3>🧠 AI & Machine Learning</h3>
+          <div class="skill-card">PyTorch(Deep Learning)</div>
+          <div class="skill-card">LangChain & LangGraph</div>
+          <div class="skill-card">AI Agents</div>
+        </div>
+        <div class="skill-category">
+          <h3>🛠️ Programming Languages</h3>
+          <div class="skill-card">Python</div>
+          <div class="skill-card">JavaScript</div>
+          <div class="skill-card">Java</div>
+        </div>
+        <div class="skill-category">
+          <h3>🛠️ Mobile Application Development</h3>
+          <div class="skill-card">React Native</div>
+        </div>
+      </div>
+    </section>
+    <section id="contact">
+      <h2>Contact</h2>
+      <div class="contact-form">
+        <input type="text" placeholder="Name" required />
+        <input type="email" placeholder="Email" required />
+        <textarea placeholder="Message" rows="5" required></textarea>
+        <button onclick="playSound(); alert('Message sent!');">
+          Send Message
+        </button>
+      </div>
+    </section>
+    <footer>
+      <p>© 2025 Nirvic Regmi. Built with Code & Passion 🇳🇵.</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script>
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      const renderer = new THREE.WebGLRenderer({
+        canvas: document.getElementById("canvas"),
+        alpha: true,
+      });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      const particleCount = 1500;
+      const particles = new THREE.Group();
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      const velocities = new Float32Array(particleCount * 3);
+      const colors = new Float32Array(particleCount * 3);
+
+      for (let i = 0; i < particleCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 60;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 60;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 60;
+        velocities[i * 3] = (Math.random() - 0.5) * 0.05;
+        velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.05;
+        velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.05;
+        colors[i * 3] = Math.random() > 0.5 ? 0 : 1; // Cyan or magenta
+        colors[i * 3 + 1] = Math.random() > 0.5 ? 1 : 0;
+        colors[i * 3 + 2] = 0.2;
+      }
+
+      geometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(positions, 3)
+      );
+      geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+      const material = new THREE.PointsMaterial({
+        size: 0.15,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.9,
+        blending: THREE.AdditiveBlending,
+      });
+      const particleSystem = new THREE.Points(geometry, material);
+      particles.add(particleSystem);
+
+      // Connection lines between particles
+      const lineGeometry = new THREE.BufferGeometry();
+      const linePositions = new Float32Array(particleCount * particleCount * 6);
+      const lineColors = new Float32Array(particleCount * particleCount * 6);
+      const lineMaterial = new THREE.LineBasicMaterial({
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.3,
+      });
+      const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+      particles.add(lines);
+      scene.add(particles);
+
+      // Holographic grid with dynamic distortion
+      const gridGeometry = new THREE.PlaneGeometry(60, 60, 50, 50);
+      const gridMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+          time: { value: 0 },
+          color: { value: new THREE.Color(0x00f0ff) },
+          opacity: { value: 0.4 },
+        },
+        vertexShader: `
+                varying vec2 vUv;
+                uniform float time;
+                void main() {
+                    vUv = uv;
+                    vec3 pos = position;
+                    pos.z += sin(pos.x * 0.1 + time) * cos(pos.y * 0.1 + time) * 2.0;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+                }
+            `,
+        fragmentShader: `
+                uniform vec3 color;
+                uniform float opacity;
+                varying vec2 vUv;
+                void main() {
+                    gl_FragColor = vec4(color, opacity * (0.5 + 0.5 * sin(vUv.x * 10.0 + vUv.y * 10.0)));
+                }
+            `,
+        wireframe: true,
+        transparent: true,
+      });
+      const grid = new THREE.Mesh(gridGeometry, gridMaterial);
+      grid.rotation.x = Math.PI / 2;
+      grid.position.z = -15;
+      scene.add(grid);
+
+      // Floating holographic spheres
+      const sphereGeometry = new THREE.SphereGeometry(0.5, 16, 16);
+      const sphereMaterial = new THREE.MeshBasicMaterial({
+        color: 0x00f0ff,
+        transparent: true,
+        opacity: 0.5,
+        wireframe: true,
+      });
+      const spheres = [];
+      for (let i = 0; i < 10; i++) {
+        const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        sphere.position.set(
+          (Math.random() - 0.5) * 40,
+          (Math.random() - 0.5) * 40,
+          (Math.random() - 0.5) * 40
+        );
+        spheres.push(sphere);
+        scene.add(sphere);
+      }
+
+      camera.position.z = 25;
+
+      // Mouse and touch interaction
+      let mouseX = 0,
+        mouseY = 0;
+      document.addEventListener("mousemove", (e) => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+      });
+
+      document.addEventListener(
+        "touchmove",
+        (e) => {
+          mouseX = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+          mouseY = -(e.touches[0].clientY / window.innerHeight) * 2 + 1;
+        },
+        { passive: true }
+      );
+
+      window.addEventListener("scroll", () => {
+        const scrollY = window.scrollY / window.innerHeight;
+        grid.position.y = -scrollY * 10;
+        spheres.forEach((sphere) => {
+          sphere.position.y -= scrollY * 0.1;
+        });
+      });
+
+      // Sound effect for button
+      function playSound() {
+        const ctx = new AudioContext();
+        const oscillator = ctx.createOscillator();
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+        oscillator.connect(ctx.destination);
+        oscillator.start();
+        oscillator.stop(ctx.currentTime + 0.15);
+      }
+
+      // Animation loop
+      let time = 0;
+      function animate() {
+        requestAnimationFrame(animate);
+        time += 0.02;
+
+        // Update particles
+        for (let i = 0; i < particleCount; i++) {
+          positions[i * 3] += velocities[i * 3] + Math.sin(time + i) * 0.02;
+          positions[i * 3 + 1] +=
+            velocities[i * 3 + 1] + Math.cos(time + i) * 0.02;
+          positions[i * 3 + 2] += velocities[i * 3 + 2];
+          if (Math.abs(positions[i * 3]) > 30) velocities[i * 3] *= -1;
+          if (Math.abs(positions[i * 3 + 1]) > 30) velocities[i * 3 + 1] *= -1;
+          if (Math.abs(positions[i * 3 + 2]) > 30) velocities[i * 3 + 2] *= -1;
+        }
+        geometry.attributes.position.needsUpdate = true;
+
+        // Update connections
+        let lineIndex = 0;
+        for (let i = 0; i < particleCount; i++) {
+          for (let j = i + 1; j < particleCount; j++) {
+            const dx = positions[i * 3] - positions[j * 3];
+            const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
+            const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
+            const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            if (dist < 5) {
+              linePositions[lineIndex * 6] = positions[i * 3];
+              linePositions[lineIndex * 6 + 1] = positions[i * 3 + 1];
+              linePositions[lineIndex * 6 + 2] = positions[i * 3 + 2];
+              linePositions[lineIndex * 6 + 3] = positions[j * 3];
+              linePositions[lineIndex * 6 + 4] = positions[j * 3 + 1];
+              linePositions[lineIndex * 6 + 5] = positions[j * 3 + 2];
+              lineColors[lineIndex * 6] = colors[i * 3];
+              lineColors[lineIndex * 6 + 1] = colors[i * 3 + 1];
+              lineColors[lineIndex * 6 + 2] = colors[i * 3 + 2];
+              lineColors[lineIndex * 6 + 3] = colors[j * 3];
+              lineColors[lineIndex * 6 + 4] = colors[j * 3 + 1];
+              lineColors[lineIndex * 6 + 5] = colors[j * 3 + 2];
+              lineIndex++;
+            }
+          }
+        }
+        lineGeometry.setAttribute(
+          "position",
+          new THREE.BufferAttribute(linePositions.slice(0, lineIndex * 6), 3)
+        );
+        lineGeometry.setAttribute(
+          "color",
+          new THREE.BufferAttribute(lineColors.slice(0, lineIndex * 6), 3)
+        );
+
+        // Update grid and spheres
+        gridMaterial.uniforms.time.value = time;
+        grid.rotation.z += 0.001;
+        spheres.forEach((sphere, i) => {
+          sphere.position.y += Math.sin(time + i) * 0.05;
+          sphere.rotation.y += 0.02;
+        });
+
+        // Camera interaction
+        camera.position.x += (mouseX * 10 - camera.position.x) * 0.05;
+        camera.position.y += (-mouseY * 10 - camera.position.y) * 0.05;
+        camera.lookAt(scene.position);
+
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      // Handle window resize
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    </script>
+  </body>
+</html>
