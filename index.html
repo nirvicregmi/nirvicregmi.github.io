@@ -1,984 +1,360 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <title>Nirvic Regmi</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-
-    <style>
-      :root {
-        --paper: #f1efe9;
-        --ink: #16181d;
-        --ink-soft: #5c5f67;
-        --line: #dcd8cf;
-        --accent: #2a3a66;
-        --accent-soft: rgba(42, 58, 102, 0.08);
-        --card: #ffffff;
-        color-scheme: light;
-        --section: 120px;
-        --maxw: 980px;
-      }
-
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme="light"]) {
-          --paper: #14161b;
-          --ink: #ededea;
-          --ink-soft: #a2a5ad;
-          --line: #2c2f37;
-          --accent: #8fa0e0;
-          --accent-soft: rgba(143, 160, 224, 0.12);
-          --card: #1a1d23;
-          color-scheme: dark;
-        }
-      }
-
-      :root[data-theme="dark"] {
-        --paper: #14161b;
-        --ink: #ededea;
-        --ink-soft: #a2a5ad;
-        --line: #2c2f37;
-        --accent: #8fa0e0;
-        --accent-soft: rgba(143, 160, 224, 0.12);
-        --card: #1a1d23;
-        color-scheme: dark;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      html {
-        scroll-behavior: smooth;
-        scroll-padding-top: env(safe-area-inset-top, 0px);
-      }
-
-      body {
-        font-family: "Inter", sans-serif;
-        background: var(--paper);
-        color: var(--ink);
-        line-height: 1.65;
-        font-size: 16px;
-        -webkit-font-smoothing: antialiased;
-        padding-top: env(safe-area-inset-top, 0px);
-      }
-
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0 0 auto;
-        height: env(safe-area-inset-top, 0px);
-        background: var(--paper);
-        z-index: 10;
-      }
-
-      a {
-        text-decoration: none;
-        color: inherit;
-        transition:
-          opacity 0.2s ease,
-          color 0.2s ease;
-      }
-
-      .serif {
-        font-family: "Fraunces", serif;
-      }
-
-      h1,
-      h2,
-      h3 {
-        font-family: "Fraunces", serif;
-        color: var(--ink);
-        line-height: 1.15;
-        font-weight: 500;
-      }
-
-      h1 {
-        font-size: clamp(2.4rem, 5vw, 4rem);
-        letter-spacing: -0.01em;
-      }
-
-      h2.kicker {
-        font-family: "Inter", sans-serif;
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--ink-soft);
-        margin-bottom: 2.75rem;
-        letter-spacing: 0.01em;
-      }
-
-      h3 {
-        font-size: 1.2rem;
-        font-weight: 500;
-        margin-bottom: 0.4rem;
-      }
-
-      p {
-        color: var(--ink-soft);
-        margin-bottom: 1rem;
-        max-width: 62ch;
-      }
-
-      .container {
-        max-width: var(--maxw);
-        margin: 0 auto;
-        padding: 0 28px;
-      }
-
-      section {
-        padding: var(--section) 0 0;
-      }
-
-      section + section {
-        border-top: 1px solid var(--line);
-      }
-
-      header {
-        position: fixed;
-        width: 100%;
-        top: 0;
-        padding-top: calc(18px + env(safe-area-inset-top, 0px));
-        padding-bottom: 18px;
-        background: color-mix(in srgb, var(--paper) 92%, transparent);
-        backdrop-filter: blur(6px);
-        border-bottom: 1px solid var(--line);
-        z-index: 100;
-      }
-
-      .nav-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .logo {
-        font-family: "Fraunces", serif;
-        font-size: 1.05rem;
-        font-weight: 500;
-      }
-
-      .logo .dot {
-        color: var(--accent);
-      }
-
-      nav {
-        display: flex;
-        gap: 30px;
-      }
-
-      nav a {
-        font-size: 0.92rem;
-        color: var(--ink-soft);
-      }
-
-      nav a:hover {
-        color: var(--ink);
-      }
-
-      .btn,
-      .btn-outline {
-        display: inline-block;
-        font-size: 0.9rem;
-        font-weight: 500;
-        padding: 12px 26px;
-        border-radius: 3px;
-        border: 1px solid var(--ink);
-      }
-
-      .btn {
-        background: var(--ink);
-        color: var(--paper);
-      }
-
-      .btn:hover {
-        background: transparent;
-        color: var(--ink);
-      }
-
-      .btn-outline {
-        background: transparent;
-        border-color: var(--line);
-        margin-left: 10px;
-      }
-
-      .btn-outline:hover {
-        border-color: var(--ink);
-      }
-
-      .hero {
-        padding-top: calc(160px + env(safe-area-inset-top, 0px));
-        padding-bottom: 60px;
-      }
-
-      .hero-grid {
-        display: grid;
-        grid-template-columns: 1.1fr 1fr;
-        gap: 50px;
-        align-items: center;
-      }
-
-      .hero-role {
-        font-size: 1.15rem;
-        color: var(--ink-soft);
-        margin: 1.6rem 0 2.2rem;
-        max-width: 46ch;
-      }
-
-      .map-wrap {
-        position: relative;
-      }
-
-      .map-caption {
-        font-family: "Fraunces", serif;
-        font-style: italic;
-        font-size: 0.85rem;
-        color: var(--ink-soft);
-        margin-top: 10px;
-        max-width: 40ch;
-      }
-
-      .node-label {
-        font-family: "Inter", sans-serif;
-        font-size: 10.5px;
-        font-weight: 500;
-        fill: var(--ink-soft);
-      }
-
-      .node-label.self {
-        fill: var(--ink);
-        font-weight: 600;
-      }
-
-      .node-dot {
-        fill: var(--accent);
-      }
-
-      .node-dot.self {
-        fill: var(--ink);
-      }
-
-      .edge {
-        stroke: var(--accent);
-        stroke-linecap: round;
-        transition: opacity 0.25s ease;
-      }
-
-      .node {
-        cursor: pointer;
-      }
-
-      .node:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 4px;
-      }
-
-      .portrait {
-        width: 168px;
-        height: 168px;
-        border-radius: 4px;
-        background: linear-gradient(155deg, var(--ink), var(--accent));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        margin-bottom: 28px;
-      }
-
-      .portrait img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      .portrait .initials {
-        font-family: "Fraunces", serif;
-        font-size: 2.1rem;
-        font-weight: 500;
-        color: var(--paper);
-        letter-spacing: 0.02em;
-      }
-
-      .grid-2 {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 64px;
-      }
-
-      .grid-3 {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0;
-      }
-
-      .tech-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 22px;
-        margin-top: 0.5rem;
-        font-size: 1.4rem;
-        color: var(--ink);
-      }
-
-      .exp-item {
-        padding: 28px 28px 28px 0;
-        border-top: 1px solid var(--line);
-      }
-
-      .grid-3 .exp-item:nth-child(2) {
-        padding-left: 28px;
-        padding-right: 28px;
-        border-left: 1px solid var(--line);
-        border-right: 1px solid var(--line);
-      }
-
-      .grid-3 .exp-item:nth-child(3) {
-        padding-left: 28px;
-        padding-right: 0;
-      }
-
-      .exp-item i {
-        font-size: 1.05rem;
-        color: var(--accent);
-        margin-bottom: 18px;
-        display: block;
-      }
-
-      .exp-item p {
-        font-size: 0.93rem;
-        margin-bottom: 0;
-      }
-
-      .project-row {
-        display: grid;
-        grid-template-columns: 1fr 2fr auto;
-        gap: 28px;
-        align-items: start;
-        padding: 30px 0;
-        border-top: 1px solid var(--line);
-      }
-
-      .project-row:last-child {
-        border-bottom: 1px solid var(--line);
-      }
-
-      .project-row h3 {
-        margin-bottom: 0;
-      }
-
-      .project-row p {
-        font-size: 0.95rem;
-        margin-bottom: 0;
-      }
-
-      .tech-stack {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        justify-content: flex-start;
-      }
-
-      .tech-badge {
-        font-size: 0.68rem;
-        font-weight: 600;
-        padding: 4px 9px;
-        background: var(--accent-soft);
-        color: var(--accent);
-        border-radius: 3px;
-      }
-
-      .project-links {
-        display: flex;
-        gap: 14px;
-        white-space: nowrap;
-        padding-top: 2px;
-      }
-
-      .project-links a {
-        color: var(--ink-soft);
-      }
-
-      .project-links a:hover {
-        color: var(--accent);
-      }
-
-      .contact-grid {
-        display: grid;
-        grid-template-columns: 1fr 1.4fr;
-        gap: 64px;
-        padding-bottom: var(--section);
-      }
-
-      .info-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 16px;
-        font-size: 0.95rem;
-      }
-
-      .info-item i {
-        color: var(--accent);
-        width: 16px;
-      }
-
-      form input,
-      form textarea {
-        width: 100%;
-        padding: 14px 16px;
-        background: var(--card);
-        border: 1px solid var(--line);
-        border-radius: 3px;
-        margin-bottom: 14px;
-        font-family: inherit;
-        font-size: 0.95rem;
-        color: var(--ink);
-        outline: none;
-        transition: border-color 0.2s;
-      }
-
-      form input:focus,
-      form textarea:focus {
-        border-color: var(--accent);
-      }
-
-      form textarea {
-        resize: vertical;
-        min-height: 110px;
-      }
-
-      footer {
-        padding: 32px 0;
-        border-top: 1px solid var(--line);
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.82rem;
-        color: var(--ink-soft);
-      }
-
-      a:focus-visible,
-      button:focus-visible,
-      input:focus-visible,
-      textarea:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
-      }
-
-      @media (prefers-reduced-motion: no-preference) {
-        .edge {
-          stroke-dasharray: 220;
-          stroke-dashoffset: 220;
-          animation: draw 1.4s ease forwards;
-        }
-
-        .node-dot {
-          opacity: 0;
-          animation: fadein 0.6s ease forwards;
-          animation-delay: 1.1s;
-        }
-      }
-
-      @keyframes draw {
-        to {
-          stroke-dashoffset: 0;
-        }
-      }
-
-      @keyframes fadein {
-        to {
-          opacity: 1;
-        }
-      }
-
-      @media (max-width: 860px) {
-        .hero-grid,
-        .grid-2,
-        .contact-grid {
-          grid-template-columns: 1fr;
-          gap: 40px;
-        }
-
-        .grid-3 {
-          grid-template-columns: 1fr;
-        }
-
-        .grid-3 .exp-item,
-        .grid-3 .exp-item:nth-child(2),
-        .grid-3 .exp-item:nth-child(3) {
-          padding: 24px 0;
-          border: none;
-          border-top: 1px solid var(--line);
-        }
-
-        .project-row {
-          grid-template-columns: 1fr;
-        }
-
-        nav {
-          display: none;
-        }
-
-        .hero {
-          padding-top: calc(120px + env(safe-area-inset-top, 0px));
-        }
-
-        :root {
-          --section: 80px;
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <header>
-      <div class="container nav-wrapper">
-        <a href="#" class="logo">Nirvic Regmi<span class="dot">.</span></a>
-        <nav>
-          <a href="#about">About</a>
-          <a href="#expertise">Expertise</a>
-          <a href="#work">Work</a>
-          <a href="#contact">Contact</a>
-        </nav>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Nirvic Regmi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+:root{
+  --paper:#f2f0ea; --ink:#15171c; --ink-soft:#60636b; --line:#dcd8cd;
+  --signal:#2a3a66; --warm:#8a5a3b; --grid-line:rgba(21,23,28,.055);
+  --card:#ffffff; color-scheme:light; --section:116px; --maxw:1020px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#111216; --ink:#eceae6; --ink-soft:#989ba3; --line:#282b32;
+    --signal:#93a3dd; --warm:#c99670; --grid-line:rgba(235,235,230,.055);
+    --card:#17191e; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111216; --ink:#eceae6; --ink-soft:#989ba3; --line:#282b32;
+  --signal:#93a3dd; --warm:#c99670; --grid-line:rgba(235,235,230,.055);
+  --card:#17191e; color-scheme:dark;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  font-family:"Inter",sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;font-size:16px;
+  -webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top,0px);
+  background-image:
+    repeating-linear-gradient(0deg, var(--grid-line) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px 48px);
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--paper);z-index:10}
+a{text-decoration:none;color:inherit;transition:opacity .2s ease,color .2s ease}
+.mono{font-family:"IBM Plex Mono",monospace}
+h1,h2,h3{font-family:"Fraunces",serif;color:var(--ink);line-height:1.12;font-weight:500}
+h1{font-size:clamp(2.6rem,5.4vw,4.3rem);letter-spacing:-.015em}
+.kicker{font-family:"IBM Plex Mono",monospace;display:flex;align-items:center;gap:10px;font-size:.78rem;font-weight:400;color:var(--ink-soft);margin-bottom:3rem}
+.kicker::before{content:"";width:20px;height:1px;background:var(--signal)}
+h3{font-size:1.2rem;font-weight:500;margin-bottom:.4rem}
+p{color:var(--ink-soft);margin-bottom:1rem;max-width:62ch}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative}
+section{padding:var(--section) 0 0}
+section + section{border-top:1px solid var(--line)}
+header{position:fixed;width:100%;top:0;padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:18px;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid transparent;z-index:100;transition:border-color .25s ease}
+header.scrolled{border-bottom-color:var(--line)}
+.nav-wrapper{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:9px;font-family:"Fraunces",serif;font-size:1.05rem;font-weight:500}
+.logo .dot{color:var(--signal)}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--signal);position:relative}
+.pulse::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--signal);opacity:.5;animation:pulse 2.4s ease-out infinite}
+@media (prefers-reduced-motion:reduce){.pulse::after{animation:none}}
+@keyframes pulse{0%{transform:scale(.6);opacity:.6}100%{transform:scale(2.1);opacity:0}}
+nav{display:flex;gap:28px;font-family:"IBM Plex Mono",monospace;font-size:.84rem}
+nav a{position:relative;color:var(--ink-soft);padding-bottom:3px}
+nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--signal);transition:width .25s ease}
+nav a:hover{color:var(--ink)}
+nav a:hover::after{width:100%}
+.btn,.btn-outline{display:inline-block;font-size:.9rem;font-weight:500;padding:12px 26px;border-radius:2px;border:1px solid var(--ink)}
+.btn{background:var(--ink);color:var(--paper)}
+.btn:hover{background:transparent;color:var(--ink)}
+.btn-outline{background:transparent;border-color:var(--line);margin-left:10px}
+.btn-outline:hover{border-color:var(--ink)}
+.hero{padding-top:calc(168px + env(safe-area-inset-top,0px));padding-bottom:36px}
+.hero-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:44px;align-items:center}
+.status-pill{font-family:"IBM Plex Mono",monospace;display:inline-flex;align-items:center;gap:8px;font-size:.74rem;color:var(--ink-soft);border:1px solid var(--line);border-radius:30px;padding:6px 14px 6px 10px;margin-bottom:1.6rem}
+.hero-role{font-size:1.1rem;color:var(--ink-soft);margin:1.4rem 0 2.2rem;max-width:48ch}
+.space-wrap{position:relative;touch-action:none}
+.space-caption{font-family:"IBM Plex Mono",monospace;font-size:.74rem;color:var(--ink-soft);margin-top:10px;max-width:46ch;line-height:1.7}
+#space-svg{width:100%;cursor:crosshair}
+.pt{fill:var(--signal)}
+.pt.self{fill:var(--warm)}
+.pt-label{font-family:"IBM Plex Mono",monospace;font-size:9.5px;fill:var(--ink-soft)}
+.attn-line{stroke:var(--signal);stroke-width:.8}
+.query-ring{fill:none;stroke:var(--warm);stroke-width:1;opacity:0}
+.axis{stroke:var(--line);stroke-width:1}
+
+.loss-divider{padding:64px 0 60px;border-top:1px solid var(--line)}
+.loss-divider svg{width:100%;height:auto;display:block}
+.loss-path{stroke:var(--signal);stroke-width:1.6;fill:none}
+@media (prefers-reduced-motion:no-preference){
+  .loss-path{stroke-dasharray:900;stroke-dashoffset:900;animation:draw 1.8s ease forwards}
+  .loss-dot{opacity:0;animation:fadein .5s ease forwards;animation-delay:1.5s}
+}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fadein{to{opacity:1}}
+.loss-caption{font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--ink-soft);margin-top:14px;max-width:50ch}
+
+.quote-band{padding:72px 0;border-top:1px solid var(--line)}
+.quote-band blockquote{font-family:"Fraunces",serif;font-style:italic;font-size:clamp(1.3rem,2.6vw,1.9rem);font-weight:400;color:var(--ink);max-width:28ch;padding-left:22px;border-left:2px solid var(--signal)}
+
+.portrait{width:160px;height:160px;border-radius:2px;background:var(--ink);background-image:repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 1px, transparent 1px 16px),repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 16px);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:28px}
+.portrait img{width:100%;height:100%;object-fit:cover;display:block}
+.portrait .initials{font-family:"IBM Plex Mono",monospace;font-size:1.9rem;color:var(--paper);letter-spacing:.02em}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:64px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.tech-list{display:flex;flex-wrap:wrap;gap:22px;margin-top:.5rem;font-size:1.4rem;color:var(--ink)}
+.exp-item{padding:30px 28px 30px 0;border-top:1px solid var(--line)}
+.exp-item i{font-size:1.05rem;color:var(--signal);margin-bottom:18px;display:block}
+.exp-item p{font-size:.93rem;margin-bottom:0}
+.grid-3 .exp-item:nth-child(2){padding-left:28px;padding-right:28px;border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.grid-3 .exp-item:nth-child(3){padding-left:28px;padding-right:0}
+.project-row{display:grid;grid-template-columns:1fr 2fr auto;gap:28px;align-items:start;padding:30px 24px;border-top:1px solid var(--line);border-left:2px solid transparent;transition:border-color .2s ease,background-color .2s ease}
+.project-row:hover{border-left-color:var(--signal);background:color-mix(in srgb, var(--signal) 6%, transparent)}
+.project-row:last-child{border-bottom:1px solid var(--line)}
+.project-row h3{margin-bottom:0}
+.project-row p{font-size:.95rem;margin-bottom:0}
+.tech-stack{display:flex;flex-wrap:wrap;gap:8px;font-family:"IBM Plex Mono",monospace}
+.tech-badge{font-size:.66rem;font-weight:500;padding:4px 9px;background:color-mix(in srgb, var(--signal) 10%, transparent);color:var(--signal);border-radius:2px}
+.project-links{display:flex;gap:14px;white-space:nowrap;padding-top:2px}
+.project-links a{color:var(--ink-soft)}
+.project-links a:hover{color:var(--signal)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:64px;padding-bottom:var(--section)}
+.info-item{display:flex;align-items:center;gap:12px;margin-bottom:16px;font-size:.95rem;font-family:"IBM Plex Mono",monospace}
+.info-item i{color:var(--signal);width:16px}
+form input,form textarea{width:100%;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:2px;margin-bottom:14px;font-family:inherit;font-size:.95rem;color:var(--ink);outline:none;transition:border-color .2s}
+form input:focus,form textarea:focus{border-color:var(--signal)}
+form textarea{resize:vertical;min-height:110px}
+footer{padding:32px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:.78rem;color:var(--ink-soft);font-family:"IBM Plex Mono",monospace}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+@media (max-width:860px){
+  .hero-grid,.grid-2,.contact-grid{grid-template-columns:1fr;gap:40px}
+  .grid-3{grid-template-columns:1fr}
+  .grid-3 .exp-item,.grid-3 .exp-item:nth-child(2),.grid-3 .exp-item:nth-child(3){padding:24px 0;border:none;border-top:1px solid var(--line)}
+  .project-row{grid-template-columns:1fr;padding-left:20px}
+  nav{display:none}
+  .hero{padding-top:calc(124px + env(safe-area-inset-top,0px))}
+  :root{--section:78px}
+}
+</style>
+</head>
+<body>
+<header id="site-header">
+  <div class="container nav-wrapper">
+    <a href="#" class="logo"><span class="pulse" aria-hidden="true"></span>Nirvic Regmi<span class="dot">.</span></a>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#expertise">Expertise</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="container hero">
+    <div class="hero-grid">
+      <div>
+        <h1>Nirvic Regmi.</h1>
+        <p class="hero-role">I am driven by the challenge of understanding and building systems that learn, reason, and scale. My work spans reliable software engineering, machine learning, and intelligent agents. Guided by analytical thinking and first-principles reasoning, I seek to understand the mechanisms beneath complex systems, question assumptions, and translate ideas into practical, intelligent solutions.</p>
+        <div>
+          <a href="#work" class="btn">Explore my work</a>
+          <a href="https://github.com/nirvicregmi" target="_blank" class="btn-outline">GitHub</a>
+          <a href="https://linkedin.com/in/nirvic-regmi-412499259/" target="_blank" class="btn-outline">LinkedIn</a>
+        </div>
       </div>
-    </header>
 
-    <main>
-      <section class="container hero">
-        <div class="hero-grid">
-          <div>
-            <h1>Nirvic Regmi.</h1>
-            <p class="hero-role">
-              I'm driven by the challenge of building systems that think, learn,
-              and scale. From engineering reliable software to developing
-              machine learning models and intelligent agents, I combine
-              analytical thinking with a first-principles mindset and a
-              curiosity to understand how things work, challenge assumptions,
-              and turn ideas into intelligent systems.
-            </p>
-            <div>
-              <a href="#work" class="btn">See the work</a>
-              <a
-                href="https://github.com/nirvicregmi"
-                target="_blank"
-                class="btn-outline"
-                >GitHub</a
-              >
-              <a
-                href="https://linkedin.com/in/nirvic-regmi-412499259/"
-                target="_blank"
-                class="btn-outline"
-                >LinkedIn</a
-              >
-            </div>
-          </div>
+      <div class="space-wrap">
+        <svg id="space-svg" viewBox="0 0 420 340" role="img" aria-label="An abstract projection of my interests in a latent space. Move your cursor to see attention weights shift toward nearby points.">
+          <line class="axis" x1="20" y1="300" x2="400" y2="300" opacity="0.5"/>
+          <line class="axis" x1="20" y1="20" x2="20" y2="300" opacity="0.5"/>
+          <g id="attn-layer"></g>
+          <circle class="pt self" cx="210" cy="165" r="5"/>
+          <text class="pt-label" x="210" y="150" text-anchor="middle">current position</text>
+          <g id="points">
+            <circle class="pt" data-c="backend" cx="78" cy="70" r="3"/>
+            <circle class="pt" data-c="backend" cx="95" cy="88" r="2.5"/>
+            <circle class="pt" data-c="backend" cx="62" cy="92" r="2.5"/>
+            <circle class="pt" data-c="ml" cx="330" cy="62" r="3"/>
+            <circle class="pt" data-c="ml" cx="348" cy="84" r="2.5"/>
+            <circle class="pt" data-c="ml" cx="312" cy="80" r="2.5"/>
+            <circle class="pt" data-c="llm" cx="345" cy="225" r="3"/>
+            <circle class="pt" data-c="llm" cx="362" cy="248" r="2.5"/>
+            <circle class="pt" data-c="llm" cx="328" cy="250" r="2.5"/>
+            <circle class="pt" data-c="rag" cx="70" cy="235" r="3"/>
+            <circle class="pt" data-c="rag" cx="88" cy="258" r="2.5"/>
+            <circle class="pt" data-c="rag" cx="52" cy="255" r="2.5"/>
+            <circle class="pt" data-c="fp" cx="210" cy="280" r="3"/>
+            <circle class="pt" data-c="fp" cx="228" cy="295" r="2.5"/>
+            <circle class="pt" data-c="fp" cx="192" cy="295" r="2.5"/>
+          </g>
+          <text class="pt-label" x="78" y="56" text-anchor="middle">backend engineering</text>
+          <text class="pt-label" x="330" y="48" text-anchor="middle">machine learning</text>
+          <text class="pt-label" x="345" y="211" text-anchor="middle">LLMs &amp; intelligent agents</text>
+          <text class="pt-label" x="70" y="221" text-anchor="middle">retrieval-augmented systems</text>
+          <text class="pt-label" x="210" y="316" text-anchor="middle">first-principles thinking</text>
+        </svg>
+        <p class="space-caption">A conceptual map of the ideas that shape my work, represented as a latent space.</p>
+      </div>
+    </div>
+  </section>
 
-          <div class="map-wrap">
-            <svg
-              viewBox="0 0 360 300"
-              width="100%"
-              role="img"
-              aria-label="A map connecting my interests in software engineering, machine learning, LLMs, AI agents and first-principles thinking"
-            >
-              <!-- Connections -->
-              <line
-                id="edge-web"
-                class="edge"
-                x1="180"
-                y1="145"
-                x2="75"
-                y2="65"
-                stroke-width="1.8"
-                opacity="0.8"
-              />
+  <section class="container loss-divider">
+    <svg viewBox="0 0 1000 120" preserveAspectRatio="none">
+      <path class="loss-path" d="M0,20 C60,35 90,18 130,40 C170,62 190,30 230,55 C280,86 310,50 350,78 C400,112 430,70 470,90 C520,113 560,78 610,92 C660,106 700,86 750,96 C800,106 850,98 900,102 C930,104 960,101 1000,100"/>
+      <circle class="loss-dot" cx="1000" cy="100" r="4" fill="var(--warm)"/>
+    </svg>
+    <p class="loss-caption">In code and in thought, much of my work is the gradual pursuit of simpler explanations for complex systems.</p>
+  </section>
 
-              <line
-                id="edge-model"
-                class="edge"
-                x1="180"
-                y1="145"
-                x2="275"
-                y2="55"
-                stroke-width="2.2"
-                opacity="0.95"
-              />
-
-              <line
-                id="edge-agents"
-                class="edge"
-                x1="180"
-                y1="145"
-                x2="290"
-                y2="190"
-                stroke-width="2"
-                opacity="0.85"
-              />
-
-              <line
-                id="edge-mobile"
-                class="edge"
-                x1="180"
-                y1="145"
-                x2="70"
-                y2="210"
-                stroke-width="1.5"
-                opacity="0.7"
-              />
-
-              <line
-                id="edge-curiosity"
-                class="edge"
-                x1="180"
-                y1="145"
-                x2="170"
-                y2="255"
-                stroke-width="1.9"
-                opacity="0.85"
-              />
-
-              <!-- Relationships between disciplines -->
-              <line
-                class="edge"
-                x1="75"
-                y1="65"
-                x2="275"
-                y2="55"
-                stroke-width="1"
-                opacity="0.4"
-              />
-
-              <line
-                class="edge"
-                x1="275"
-                y1="55"
-                x2="290"
-                y2="190"
-                stroke-width="1.5"
-                opacity="0.55"
-              />
-
-              <line
-                class="edge"
-                x1="70"
-                y1="210"
-                x2="170"
-                y2="255"
-                stroke-width="1"
-                opacity="0.4"
-              />
-
-              <line
-                class="edge"
-                x1="290"
-                y1="190"
-                x2="170"
-                y2="255"
-                stroke-width="1"
-                opacity="0.4"
-              />
-
-              <!-- Central identity -->
-              <circle class="node-dot self" cx="180" cy="145" r="6" />
-              <text
-                class="node-label self"
-                x="180"
-                y="128"
-                text-anchor="middle"
-              >
-                software × AI
-              </text>
-
-              <!-- Backend engineering -->
-              <g class="node" data-edge="edge-web" tabindex="0">
-                <circle class="node-dot" cx="75" cy="65" r="4" />
-                <text class="node-label" x="75" y="49" text-anchor="middle">
-                  backend systems
-                </text>
-              </g>
-
-              <!-- Machine learning -->
-              <g class="node" data-edge="edge-model" tabindex="0">
-                <circle class="node-dot" cx="275" cy="55" r="4" />
-                <text class="node-label" x="275" y="39" text-anchor="middle">
-                  machine learning
-                </text>
-              </g>
-
-              <!-- AI agents and LLM applications -->
-              <g class="node" data-edge="edge-agents" tabindex="0">
-                <circle class="node-dot" cx="290" cy="190" r="4" />
-                <text class="node-label" x="290" y="174" text-anchor="middle">
-                  LLMs &amp; agents
-                </text>
-              </g>
-
-              <!-- Retrieval and applied AI -->
-              <g class="node" data-edge="edge-mobile" tabindex="0">
-                <circle class="node-dot" cx="70" cy="210" r="4" />
-                <text class="node-label" x="70" y="230" text-anchor="middle">
-                  RAG &amp; AI systems
-                </text>
-              </g>
-
-              <!-- Learning philosophy -->
-              <g class="node" data-edge="edge-curiosity" tabindex="0">
-                <circle class="node-dot" cx="170" cy="255" r="4" />
-                <text class="node-label" x="170" y="276" text-anchor="middle">
-                  first principles
-                </text>
-              </g>
-            </svg>
-
-            <p class="map-caption">
-              I work at the intersection of software engineering and artificial
-              intelligence. From building backend systems and tinkering with
-              machine learning algorithms to experimenting with LLMs,
-              RAG and autonomous agents, I enjoy understanding how things work
-              beneath the surface and turning that understanding into practical
-              systems.
-            </p>
-          </div>
+  <section id="about" class="container">
+    <h2 class="kicker">About</h2>
+    <div class="grid-2">
+      <div>
+        <p>I am motivated by a persistent desire to understand how systems work beneath the surface. That curiosity has led me from backend engineering to experimenting with machine learning models, refining them through repeated training, and studying the principles that govern their behaviour.</p>
+        <p>My current focus includes PyTorch, model-training pipelines, retrieval-augmented generation (RAG), and agents designed to operate reliably beyond controlled demonstrations.</p>
+      </div>
+      <div>
+        <div class="portrait">
+          <img src="profilepic.jpg" alt="Nirvic Regmi" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'initials',textContent:'NR'}))" />
         </div>
-      </section>
-
-      <section id="about" class="container">
-        <h2 class="kicker">About</h2>
-        <div class="grid-2">
-          <div>
-            <p>
-              I'm driven by a fairly relentless need to understand how things
-              work underneath. That's taken me from shipping web and mobile
-              products to spending my evenings retraining the same small model
-              until it stops being dumb in a new way.
-            </p>
-            <p>
-              Lately that means PyTorch more than anything else — building out model
-              training pipelines, RAG systems, and agents that actually hold up
-              a potential.
-            </p>
-            <p>
-              Most of what I'm chasing, in code and otherwise, is compression —
-              the smallest model that still explains the mess. A model that's
-              only memorized the data hasn't understood anything. Neither have
-              I, usually, until I can say it simply.
-            </p>
-          </div>
-          <div>
-            <div class="portrait">
-              <img src="profilepic.jpg" alt="Nirvic Regmi" />
-              <!-- To use your own photo, replace the line above with:
-                 <img src="your-photo.jpg" alt="Nirvic Regmi" />
-            --></div>
-            <h3>Toolkit</h3>
-            <p style="font-size: 0.9rem; margin-bottom: 12px">
-              What I reach for most often:
-            </p>
-            <div class="tech-list">
-              <i class="fa-brands fa-python" title="Python"></i>
-              <i class="fa-brands fa-js" title="JavaScript"></i>
-              <i class="fa-brands fa-react" title="React"></i>
-              <i class="fa-brands fa-node" title="Node.js"></i>
-              <i class="fa-brands fa-aws" title="AWS"></i>
-              <i class="fa-solid fa-database" title="Databases"></i>
-            </div>
-          </div>
+        <h3>Technical toolkit</h3>
+        <p style="font-size:.9rem;margin-bottom:12px">Tools and technologies I work with:</p>
+        <div class="tech-list">
+          <i class="fa-brands fa-python" title="Python"></i>
+          <i class="fa-brands fa-js" title="JavaScript"></i>
+          <i class="fa-brands fa-react" title="React"></i>
+          <i class="fa-brands fa-node" title="Node.js"></i>
+          <i class="fa-brands fa-aws" title="AWS"></i>
+          <i class="fa-solid fa-database" title="Databases"></i>
         </div>
-      </section>
+      </div>
+    </div>
+  </section>
 
-      <section id="expertise" class="container">
-        <h2 class="kicker">Expertise</h2>
+  <section class="container quote-band">
+    <blockquote>I am drawn to the principle of compression: finding the simplest model that preserves the essential structure of a complex problem.</blockquote>
+  </section>
 
-        <div class="grid-3">
-          <div class="exp-item">
-            <i class="fa-solid fa-server"></i>
-            <h3>Software &amp; backend engineering</h3>
-            <p>
-              Designing and building scalable backend systems, REST APIs,
-              database architectures, and distributed services. Focused on clean
-              architecture, reliability, and solving problems beyond the
-              application layer.
-            </p>
-          </div>
+  <section id="expertise" class="container">
+    <h2 class="kicker">Expertise</h2>
+    <div class="grid-3">
+      <div class="exp-item">
+        <i class="fa-solid fa-server"></i>
+        <h3>Software and Backend Engineering</h3>
+        <p>Designing and developing scalable backend systems, RESTful APIs, database architectures, and distributed services. Emphasis on sound architectural principles, operational reliability, and solving problems across the full system—not merely at the application layer.</p>
+      </div>
+      <div class="exp-item">
+        <i class="fa-solid fa-vector-square"></i>
+        <h3>AI and Intelligent Systems</h3>
+        <p>Developing AI applications that combine large language models, retrieval-augmented generation, vector databases, and tool-using agents. Exploring local inference, model integration, and agentic workflows to make intelligent systems more capable, useful, and dependable.</p>
+      </div>
+      <div class="exp-item">
+        <i class="fa-solid fa-chart-line"></i>
+        <h3>Machine Learning and Deep Learning</h3>
+        <p>Studying machine learning, neural networks, and sequence models through both theory and implementation. Building models from first principles to understand the mathematics, computational mechanisms, and learning dynamics behind them.</p>
+      </div>
+    </div>
+  </section>
 
-          <div class="exp-item">
-            <i class="fa-solid fa-brain"></i>
-            <h3>AI &amp; intelligent systems</h3>
-            <p>
-              Building practical AI applications with LLMs, RAG pipelines,
-              vector databases, and tool-using agents. Exploring local
-              inference, model integration, and intelligent automation.
-            </p>
-          </div>
+  <section id="work" class="container">
+    <h2 class="kicker">Selected Work</h2>
+    <div class="project-row">
+      <h3>ServeNepal</h3>
+      <p>A digital governance platform connecting citizens with district administrators through a unified system for service requests, progress tracking, and administrative analytics.</p>
+      <div class="tech-stack"><span class="tech-badge">React</span><span class="tech-badge">Node.js</span><span class="tech-badge">MongoDB</span></div>
+    </div>
+    <div class="project-row">
+      <h3>Podcast Scraper</h3>
+      <p>An automated podcast-feed collection system featuring subscriptions, frequent feed updates, and full-text search across the archived content.</p>
+      <div class="tech-stack"><span class="tech-badge">Golang</span><span class="tech-badge">PostgreSQL</span></div>
+      <div class="project-links"><a href="https://github.com/nirvicregmi/Podcast-Scraper" target="_blank"><i class="fa-brands fa-github"></i></a></div>
+    </div>
+    <div class="project-row">
+      <h3>Meeting Summarizer</h3>
+      <p>An AI-powered meeting assistant that transcribes recorded discussions, identifies key decisions and action items, and produces concise, structured summaries.</p>
+      <div class="tech-stack"><span class="tech-badge">Next.js</span><span class="tech-badge">LLM</span><span class="tech-badge">MongoDB</span></div>
+      <div class="project-links"><a href="https://github.com/nirvicregmi/Meeting-Summarizer" target="_blank"><i class="fa-brands fa-github"></i></a></div>
+    </div>
+    <div class="project-row">
+      <h3>Agentic ToDo</h3>
+      <p>A task-management application that converts natural-language instructions into structured tasks, including descriptions, due dates, and tags.</p>
+      <div class="tech-stack"><span class="tech-badge">Python</span><span class="tech-badge">LangChain</span><span class="tech-badge">OpenAI</span></div>
+      <div class="project-links"><a href="https://github.com/nirvicregmi/AI-Agent---ToDo-App" target="_blank"><i class="fa-brands fa-github"></i></a></div>
+    </div>
+  </section>
 
-          <div class="exp-item">
-            <i class="fa-solid fa-network-wired"></i>
-            <h3>Machine learning &amp; deep learning</h3>
-            <p>
-              Deep dive into machine learning, neural networks, and sequence
-              models. Constantly building models from scratch to understand how
-              learning actually works.
-            </p>
-          </div>
-        </div>
-      </section>
+  <section id="contact" class="container">
+    <h2 class="kicker">Contact</h2>
+    <div class="contact-grid">
+      <div>
+        <p>I welcome thoughtful conversations, research discussions, and opportunities to collaborate on meaningful technical work.</p>
+        <div class="info-item"><i class="fa-solid fa-envelope"></i><span>rnirvic@gmail.com</span></div>
+        <div class="info-item"><i class="fa-solid fa-location-dot"></i><span>Kathmandu, Nepal</span></div>
+      </div>
+      <form onsubmit="event.preventDefault();alert('Message sent.');">
+        <input type="text" placeholder="Your name" required />
+        <input type="email" placeholder="Your email address" required />
+        <textarea rows="4" placeholder="Write your message" required></textarea>
+        <button class="btn" type="submit">Send message</button>
+      </form>
+    </div>
+  </section>
+</main>
 
-      <section id="work" class="container">
-        <h2 class="kicker">Selected work</h2>
+<footer class="container">
+  <span>&copy; 2026 Nirvic Regmi</span>
+  <span>v2026.11</span>
+</footer>
 
-        <div class="project-row">
-          <h3>ServeNepal</h3>
-          <p>
-            A governance platform bridging citizens and district administrators
-            — reporting, status tracking, and analytics in one place.
-          </p>
-          <div class="tech-stack">
-            <span class="tech-badge">React</span>
-            <span class="tech-badge">Node.js</span>
-            <span class="tech-badge">MongoDB</span>
-          </div>
-        </div>
+<script>
+var header=document.getElementById("site-header");
+window.addEventListener("scroll",function(){header.classList.toggle("scrolled", window.scrollY>12)},{passive:true});
 
-        <div class="project-row">
-          <h3>Podcast Scraper</h3>
-          <p>
-            An automated feed scraper with subscriptions, minute-level updates,
-            and full-text search over the archive.
-          </p>
-          <div class="tech-stack">
-            <span class="tech-badge">Golang</span>
-            <span class="tech-badge">PostgreSQL</span>
-          </div>
-          <div class="project-links">
-            <a
-              href="https://github.com/nirvicregmi/Podcast-Scraper"
-              target="_blank"
-              ><i class="fa-brands fa-github"></i
-            ></a>
-          </div>
-        </div>
+// attention-weighted latent space hero
+(function(){
+  var svg=document.getElementById("space-svg");
+  var layer=document.getElementById("attn-layer");
+  var pts=Array.prototype.slice.call(document.querySelectorAll("#points .pt"));
+  var self={x:210,y:165};
+  var lines=pts.map(function(p){
+    var l=document.createElementNS("http://www.w3.org/2000/svg","line");
+    l.setAttribute("class","attn-line");
+    l.setAttribute("x1",self.x);l.setAttribute("y1",self.y);
+    l.setAttribute("x2",p.getAttribute("cx"));l.setAttribute("y2",p.getAttribute("cy"));
+    l.setAttribute("opacity","0.05");
+    layer.appendChild(l);
+    return {el:l,x:+p.getAttribute("cx"),y:+p.getAttribute("cy")};
+  });
+  var ring=document.createElementNS("http://www.w3.org/2000/svg","circle");
+  ring.setAttribute("class","query-ring");ring.setAttribute("r","9");
+  layer.appendChild(ring);
 
-        <div class="project-row">
-          <h3>Meeting Summarizer</h3>
-          <p>
-            An AI meeting assistant that transcribes video, pulls out action
-            items, and writes a summary worth actually reading.
-          </p>
-          <div class="tech-stack">
-            <span class="tech-badge">Next.js</span>
-            <span class="tech-badge">LLM</span>
-            <span class="tech-badge">MongoDB</span>
-          </div>
-          <div class="project-links">
-            <a
-              href="https://github.com/nirvicregmi/Meeting-Summarizer"
-              target="_blank"
-              ><i class="fa-brands fa-github"></i
-            ></a>
-          </div>
-        </div>
-
-        <div class="project-row">
-          <h3>Agentic ToDo</h3>
-          <p>
-            A task manager that understands plain language — due dates, tags,
-            and entries created from how you'd actually say them.
-          </p>
-          <div class="tech-stack">
-            <span class="tech-badge">Python</span>
-            <span class="tech-badge">LangChain</span>
-            <span class="tech-badge">OpenAI</span>
-          </div>
-          <div class="project-links">
-            <a
-              href="https://github.com/nirvicregmi/AI-Agent---ToDo-App"
-              target="_blank"
-              ><i class="fa-brands fa-github"></i
-            ></a>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" class="container">
-        <h2 class="kicker">Contact</h2>
-        <div class="contact-grid">
-          <div>
-            <p>
-              Feel free to reach out for collaborations, or just to talk shop
-              about agents and training runs.
-            </p>
-            <div class="info-item">
-              <i class="fa-solid fa-envelope"></i><span>rnirvic@gmail.com</span>
-            </div>
-            <div class="info-item">
-              <i class="fa-solid fa-location-dot"></i
-              ><span>Kathmandu, Nepal</span>
-            </div>
-          </div>
-          <form
-            onsubmit="
-              event.preventDefault();
-              alert('Message sent.');
-            "
-          >
-            <input type="text" placeholder="Name" required />
-            <input type="email" placeholder="Email" required />
-            <textarea rows="4" placeholder="Message" required></textarea>
-            <button class="btn" type="submit">Send message</button>
-          </form>
-        </div>
-      </section>
-    </main>
-
-    <footer class="container">
-      <span>&copy; 2026 Nirvic Regmi</span>
-      <span>v2026.11 — still training.</span>
-    </footer>
-
-    <script>
-      document.querySelectorAll(".node").forEach(function (node) {
-        var edge = document.getElementById(node.dataset.edge);
-        if (!edge) return;
-        var baseOpacity = edge.getAttribute("opacity");
-        var baseWidth = parseFloat(edge.getAttribute("stroke-width"));
-        var others = Array.prototype.filter.call(
-          document.querySelectorAll(".edge"),
-          function (e) {
-            return e !== edge;
-          },
-        );
-        function focus() {
-          edge.style.opacity = 1;
-          edge.style.strokeWidth = (baseWidth * 1.5).toFixed(2);
-          others.forEach(function (e) {
-            e.style.opacity = 0.18;
-          });
-        }
-        function clear() {
-          edge.style.opacity = baseOpacity;
-          edge.style.strokeWidth = baseWidth;
-          others.forEach(function (e) {
-            e.style.opacity = e.getAttribute("opacity");
-          });
-        }
-        node.addEventListener("mouseenter", focus);
-        node.addEventListener("mouseleave", clear);
-        node.addEventListener("focus", focus);
-        node.addEventListener("blur", clear);
-      });
-    </script>
-  </body>
+  function toLocal(evt){
+    var r=svg.getBoundingClientRect();
+    var vb=svg.viewBox.baseVal;
+    var x=(evt.clientX-r.left)/r.width*vb.width;
+    var y=(evt.clientY-r.top)/r.height*vb.height;
+    return {x:x,y:y};
+  }
+  function update(p){
+    ring.setAttribute("cx",p.x);ring.setAttribute("cy",p.y);ring.style.opacity=1;
+    var max=170;
+    lines.forEach(function(ln){
+      var dx=ln.x-p.x, dy=ln.y-p.y;
+      var d=Math.sqrt(dx*dx+dy*dy);
+      var w=Math.max(0,1-d/max); w=w*w;
+      ln.el.setAttribute("x1",p.x);ln.el.setAttribute("y1",p.y);
+      ln.el.setAttribute("opacity",(0.05+w*0.55).toFixed(2));
+    });
+  }
+  function reset(){
+    ring.style.opacity=0;
+    lines.forEach(function(ln){
+      ln.el.setAttribute("x1",self.x);ln.el.setAttribute("y1",self.y);
+      ln.el.setAttribute("opacity","0.05");
+    });
+  }
+  svg.addEventListener("pointermove",function(e){update(toLocal(e))});
+  svg.addEventListener("pointerleave",reset);
+  reset();
+})();
+</script>
+</body>
 </html>
